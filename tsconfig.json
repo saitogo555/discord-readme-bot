@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    /* Basic Settings */
+    "target": "ES2020",                             /* Use newer JavaScript features */
+    "module": "NodeNext",                           /* Use Node.js module system */
+    "moduleResolution": "NodeNext",                 /* Use Node.js module resolution */
+    
+    /* Output Settings */
+    "rootDir": "./src",                             /* Source code root directory */
+    "outDir": "./dist",                             /* Output directory for compiled files */
+    "sourceMap": true,                              /* Create source maps for debugging */
+    
+    /* Module Settings */
+    "resolveJsonModule": true,                      /* Allow importing JSON files */
+    
+    /* Error Checking */
+    "strict": true,                                 /* Enable all strict type checking options */
+    "noImplicitAny": true,                          /* Disallow implicit any type */
+    "strictNullChecks": true,                       /* Check for null and undefined */
+    "noUnusedLocals": true,                         /* Report unused local variables */
+    "noUnusedParameters": true,                     /* Report unused parameters */
+    "noImplicitReturns": true,                      /* Check all code paths for return values */
+    "noFallthroughCasesInSwitch": true,             /* Report errors for switch statement fall-through */
+    
+    /* Interoperability */
+    "esModuleInterop": true,                        /* Enable importing CommonJS modules easily */
+    "forceConsistentCasingInFileNames": true,       /* Enforce consistent file name casing */
+    
+    /* Other */
+    "skipLibCheck": true                            /* Skip type checking for all .d.ts files */
+  },
+  "include": ["src/**/*"],                          /* Files to include for compilation */
+  "exclude": ["node_modules", "dist"]               /* Directories to exclude from compilation */
+}

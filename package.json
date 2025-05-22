@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "biome:format": "biome format --verbose --write ./src",
+    "biome:lint": "biome lint --verbose --apply ./src",
+    "biome:check": "biome check --verbose --apply ./src"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +15,7 @@
     "dotenv": "^16.5.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }

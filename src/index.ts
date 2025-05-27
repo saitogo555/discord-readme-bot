@@ -1,10 +1,5 @@
 import { Client } from "discord.js";
-import { config } from "dotenv";
-
-// Load environment variables from .env file
-config();
-
-const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
+import { DISCORD_TOKEN } from "./config";
 
 if (!DISCORD_TOKEN) {
 	console.error("❌ Error: DISCORD_TOKEN is not set");

@@ -1,27 +1,19 @@
 import type { Message, OmitPartialGroupDMChannel } from "discord.js";
 import { CLIENT_ID } from "../config";
 
+/**
+ * Handles the message creation event in Discord.
+ * 
+ * @param message Message object from Discord.js
+ * @returns 
+ */
 export function messageCreateEventHandler(message: OmitPartialGroupDMChannel<Message<boolean>>) {
-	// Ignore messages from bots
-	if (message.author.bot) {
-		return;
-	}
-
-	// Ignore messages that are not in a guild
-	if (!message.guild) {
-		return;
-	}
-
-	// Ignore messages that do not mention the bot
-	if (!message.mentions.has(CLIENT_ID)) {
-		return;
-	}
+	if (message.author.bot) return;
+	if (!message.guild) return;
+	if (!message.mentions.has(CLIENT_ID)) return;
   
-	// Ignore messages that do not mention any users or roles
   const users = getTargetUsers(message);
-  if (users.length === 0) {
-    return;
-  }
+  if (users.length === 0) return;
 
   message.reply({
     content: "対象のメッセージです"
@@ -29,15 +21,18 @@ export function messageCreateEventHandler(message: OmitPartialGroupDMChannel<Mes
   
 }
 
+/**
+ * Gets the target users mentioned in a message.
+ *
+ * @param message Message object from Discord.js
+ * @returns Array of user IDs mentioned in the message
+ */
 function getTargetUsers(message: OmitPartialGroupDMChannel<Message<boolean>>) {
 	const botId = message.client.user.id;
   const authorId = message.author.id;
 	const userIds = new Set<string>();
 
-	// if the message is not in a guild, return an empty array
-	if (!message.guild) {
-		return [];
-	}
+	if (!message.guild) return [];
 
 	// Get directly mentioned users
 	for (const user of message.mentions.users.values()) {

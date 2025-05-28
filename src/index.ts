@@ -3,8 +3,8 @@ import { messageCreateEventHandler } from "./events/messageCreateEvent";
 import { DISCORD_TOKEN } from "./config";
 
 if (!DISCORD_TOKEN) {
-	console.error("❌ Error: DISCORD_TOKEN is not set");
-	console.error("💡 Please set DISCORD_TOKEN in the .env file");
+	console.error("❌ エラー: DISCORD_TOKENが設定されていません");
+	console.error("💡 .envファイルでDISCORD_TOKENを設定してください");
 	process.exit(1);
 }
 
@@ -16,29 +16,29 @@ const client: Client = new Client({
 	],
 });
 
-console.log("🤖 Starting Discord Bot...");
+console.log("🤖 BOTを起動中...");
 
 client.login(DISCORD_TOKEN);
 
 client.on("ready", () => {
-	console.log("✅ Discord Bot started successfully!");
-	console.log("============== Bot Information ==============");
+	console.log("✅ BOTが正常に起動しました！");
+	console.log("============== ボット情報 ==============");
 	console.log(`ID: ${client.user?.id}`);
-	console.log(`Username: ${client.user?.tag}`);
+	console.log(`ユーザー名: ${client.user?.tag}`);
 });
 
 client.on("error", (error) => {
-	console.error("❌ An error occurred in Discord Bot:");
-	console.error("Error details:", error.message);
-	console.error("Stack trace:", error.stack);
+	console.error("❌ BOTでエラーが発生しました:");
+	console.error("エラー詳細:", error.message);
+	console.error("スタックトレース:", error.stack);
 });
 
 client.on("disconnect", () => {
-	console.warn("⚠️ Disconnected from Discord");
+	console.warn("⚠️ Discordから切断されました");
 });
 
 client.on("reconnecting", () => {
-	console.log("🔄 Attempting to reconnect to Discord...");
+	console.log("🔄 Discordへの再接続を試行中...");
 });
 
 client.on("messageCreate", messageCreateEventHandler);

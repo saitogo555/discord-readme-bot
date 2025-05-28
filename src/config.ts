@@ -1,9 +1,8 @@
 import { config } from "dotenv";
 
-// Load environment variables from .env file
+// .envファイルを読み込む
 config();
 
-const DISCORD_TOKEN = process.env.DISCORD_TOKEN || "";
-const CLIENT_ID = process.env.CLIENT_ID || "";
-
-export { DISCORD_TOKEN, CLIENT_ID };
+export const DISCORD_TOKEN = process.env.DISCORD_TOKEN || "";
+export const CLIENT_ID = process.env.CLIENT_ID || "";
+export const READ_REACTION_EMOJI = process.env.READ_REACTION_EMOJI || "👀";

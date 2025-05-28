@@ -1,5 +1,5 @@
 import type { Message, OmitPartialGroupDMChannel } from "discord.js";
-import { CLIENT_ID } from "../config";
+import { CLIENT_ID, READ_REACTION_EMOJI } from "../config";
 
 /**
  * Discordのメッセージ作成イベントを処理します。
@@ -7,9 +7,7 @@ import { CLIENT_ID } from "../config";
  * @param message Discord.jsのMessageオブジェクト
  * @returns 
  */
-export function messageCreateEventHandler(message: OmitPartialGroupDMChannel<Message<boolean>>) {
-	console.log(1);
-	
+export async function messageCreateEventHandler(message: OmitPartialGroupDMChannel<Message<boolean>>) {
 	if (message.author.bot) return;
 	if (!message.guild) return;
 	if (!message.mentions.has(CLIENT_ID)) return;
@@ -17,10 +15,7 @@ export function messageCreateEventHandler(message: OmitPartialGroupDMChannel<Mes
   const users = getTargetUsers(message);
   if (users.length === 0) return;
 
-  message.reply({
-    content: "対象のメッセージです"
-  })
-  
+  await message.react(READ_REACTION_EMOJI)
 }
 
 /**

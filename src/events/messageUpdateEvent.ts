@@ -18,8 +18,6 @@ export async function messageUpdateEventHandler(
 	if (!newMessage.guild) return;
 	if (!newMessage.mentions.has(CLIENT_ID)) return;
 
-	await newMessage.react(READ_REACTION_EMOJI);
-
 	const users = getTargetUsers(newMessage);
 	if (users.length === 0) return;
 

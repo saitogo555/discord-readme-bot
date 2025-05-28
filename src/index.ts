@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import { messageCreateEventHandler } from "./events/messageCreateEvent";
 import { DISCORD_TOKEN } from "./config";
+import { messageUpdateEventHandler } from "./events/messageUpdateEvent";
 
 if (!DISCORD_TOKEN) {
 	console.error("❌ Error: DISCORD_TOKEN is not set");
@@ -42,3 +43,4 @@ client.on("reconnecting", () => {
 });
 
 client.on("messageCreate", messageCreateEventHandler);
+client.on("messageUpdate", messageUpdateEventHandler);

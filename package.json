@@ -4,6 +4,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "tsx src/index.ts",
+    "watch": "tsx watch src/index.ts",
     "biome:format": "biome format --verbose --write ./src",
     "biome:lint": "biome lint --verbose --apply ./src",
     "biome:check": "biome check --verbose --apply ./src"

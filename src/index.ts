@@ -1,4 +1,5 @@
-import { Client } from "discord.js";
+import { Client, GatewayIntentBits } from "discord.js";
+import { messageCreateEventHandler } from "./events/messageCreateEvent";
 import { DISCORD_TOKEN } from "./config";
 
 if (!DISCORD_TOKEN) {
@@ -8,7 +9,11 @@ if (!DISCORD_TOKEN) {
 }
 
 const client: Client = new Client({
-	intents: [],
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+	],
 });
 
 console.log("🤖 Starting Discord Bot...");
@@ -17,7 +22,7 @@ client.login(DISCORD_TOKEN);
 
 client.on("ready", () => {
 	console.log("✅ Discord Bot started successfully!");
-  console.log("============== Bot Information ==============");
+	console.log("============== Bot Information ==============");
 	console.log(`ID: ${client.user?.id}`);
 	console.log(`Username: ${client.user?.tag}`);
 });
@@ -35,3 +40,5 @@ client.on("disconnect", () => {
 client.on("reconnecting", () => {
 	console.log("🔄 Attempting to reconnect to Discord...");
 });
+
+client.on("messageCreate", messageCreateEventHandler);

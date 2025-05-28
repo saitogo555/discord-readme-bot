@@ -2,12 +2,14 @@ import type { Message, OmitPartialGroupDMChannel } from "discord.js";
 import { CLIENT_ID } from "../config";
 
 /**
- * Handles the message creation event in Discord.
+ * Discordのメッセージ作成イベントを処理します。
  * 
- * @param message Message object from Discord.js
+ * @param message Discord.jsのMessageオブジェクト
  * @returns 
  */
 export function messageCreateEventHandler(message: OmitPartialGroupDMChannel<Message<boolean>>) {
+	console.log(1);
+	
 	if (message.author.bot) return;
 	if (!message.guild) return;
 	if (!message.mentions.has(CLIENT_ID)) return;
@@ -22,10 +24,10 @@ export function messageCreateEventHandler(message: OmitPartialGroupDMChannel<Mes
 }
 
 /**
- * Gets the target users mentioned in a message.
+ * メッセージでメンションされた対象ユーザーを取得します。
  *
- * @param message Message object from Discord.js
- * @returns Array of user IDs mentioned in the message
+ * @param message Discord.jsのMessageオブジェクト
+ * @returns メッセージでメンションされたユーザーIDの配列
  */
 function getTargetUsers(message: OmitPartialGroupDMChannel<Message<boolean>>) {
 	const botId = message.client.user.id;
@@ -34,14 +36,14 @@ function getTargetUsers(message: OmitPartialGroupDMChannel<Message<boolean>>) {
 
 	if (!message.guild) return [];
 
-	// Get directly mentioned users
+	// 直接メンションされたユーザーを取得
 	for (const user of message.mentions.users.values()) {
 		if (user.id !== botId && user.id !== authorId) {
 			userIds.add(user.id);
 		}
 	}
 
-	// Get target users from role mentions
+	// ロールメンションから対象ユーザーを取得
 	for (const role of message.mentions.roles.values()) {
 		for (const member of role.members.values()) {
 			if (!member.user.bot && member.id !== botId && member.id !== authorId) {
@@ -50,7 +52,7 @@ function getTargetUsers(message: OmitPartialGroupDMChannel<Message<boolean>>) {
 		}
 	}
 
-	// Get all members when @everyone is mentioned
+	// @everyoneがメンションされた場合、すべてのメンバーを取得
 	if (message.mentions.everyone) {
 		for (const member of message.guild.members.cache.values()) {
 			if (!member.user.bot && member.id !== botId && member.id !== authorId) {

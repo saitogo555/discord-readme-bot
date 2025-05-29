@@ -3,7 +3,7 @@ import { CLIENT_ID, READ_REACTION_EMOJI } from "../config";
 import { getTargetUsers } from "../utils/messageUtils";
 
 /**
- * Discordのメッセージ更新イベントを処理します。
+ * Discordのメッセージ更新イベントを処理します。\
  * このイベントは、メッセージが更新されたときに発火します。
  *
  * @param _ 更新前のメッセージ

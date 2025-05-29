@@ -3,7 +3,7 @@ import { CLIENT_ID, READ_REACTION_EMOJI } from "../config";
 import { getTargetUsers } from "../utils/messageUtils";
 
 /**
- * Discordのメッセージ作成イベントを処理します。
+ * Discordのメッセージ作成イベントを処理します。\
  * このイベントは、メッセージが作成されたときに発火します。
  * 
  * @param message Discord.jsのMessageオブジェクト

@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import { messageCreateEventHandler } from "./events/messageCreateEvent";
 import { DISCORD_TOKEN } from "./config";
+import { messageUpdateEventHandler } from "./events/messageUpdateEvent";
 
 if (!DISCORD_TOKEN) {
 	console.error("❌ エラー: DISCORD_TOKENが設定されていません");
@@ -13,6 +14,8 @@ const client: Client = new Client({
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildPresences,
 	],
 });
 
@@ -42,3 +45,4 @@ client.on("reconnecting", () => {
 });
 
 client.on("messageCreate", messageCreateEventHandler);
+client.on("messageUpdate", messageUpdateEventHandler);

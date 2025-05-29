@@ -37,27 +37,20 @@ export async function getTargetUsers(message: OmitPartialGroupDMChannel<Message<
 		const isEveryoneMentioned = message.content.includes("@everyone");
 		const isHereMentioned = message.content.includes("@here");
 		const isOnlyOnline = !isEveryoneMentioned && isHereMentioned;
-		console.log(`Everyone mentioned: ${isEveryoneMentioned}, Here mentioned: ${isHereMentioned}, Only online: ${isOnlyOnline}`);
 		
-		await message.guild.members.fetch(); // メンバーキャッシュを更新
-		console.log(`Total members in guild: ${message.guild.members.cache.size}`);
+		// メンバーキャッシュを更新
+		await message.guild.members.fetch(); 
 
 		for (const member of message.guild.members.cache.values()) {
-			console.log(`Checking member: ${member.nickname} (${member.id})`);
-			
 			if (member.user.bot || member.id === botId || member.id === authorId) {
-				console.log(1, `Skipping bot or author: ${member.nickname}`);
 				continue;
 			}
 			if (isOnlyOnline && member.presence?.status === "offline") {
-				console.log(2, `Skipping offline member: ${member.nickname}`);
 				continue;
 			}
 			userIds.add(member.id);
 		}
 	}
-
-	console.log(Array.from(userIds));
 
 	return Array.from(userIds);
 }

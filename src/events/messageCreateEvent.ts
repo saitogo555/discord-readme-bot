@@ -14,7 +14,7 @@ export async function messageCreateEventHandler(message: OmitPartialGroupDMChann
 	if (!message.guild) return;
 	if (!message.mentions.has(CLIENT_ID)) return;
   
-  const users = getTargetUsers(message);
+  const users = await getTargetUsers(message);
   if (users.length === 0) return;
 
   await message.react(READ_REACTION_EMOJI)

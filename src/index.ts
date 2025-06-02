@@ -3,6 +3,7 @@ import { DISCORD_TOKEN } from "./config";
 import { messageCreateEventHandler } from "./events/messageCreateEvent";
 import { messageReactionAddEventHandler } from "./events/messageReactionAddEvent";
 import { messageUpdateEventHandler } from "./events/messageUpdateEvent";
+import { interactionCreateEventHandler } from "./events/interactionCreateEvent";
 
 if (!DISCORD_TOKEN) {
 	console.error("❌ エラー: DISCORD_TOKENが設定されていません");
@@ -50,3 +51,4 @@ client.on("reconnecting", () => {
 client.on("messageCreate", messageCreateEventHandler);
 client.on("messageUpdate", messageUpdateEventHandler);
 client.on("messageReactionAdd", messageReactionAddEventHandler);
+client.on("interactionCreate", interactionCreateEventHandler);

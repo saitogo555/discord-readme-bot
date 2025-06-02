@@ -1,4 +1,4 @@
-import type { Message, OmitPartialGroupDMChannel } from "discord.js";
+import type { Message } from "discord.js";
 import { CLIENT_ID } from "../config";
 
 /**
@@ -12,7 +12,7 @@ import { CLIENT_ID } from "../config";
  * @param message Discord.jsのMessageオブジェクト
  * @returns 対象のメッセージであればtrue、そうでなければfalse
  */
-export async function isTargetMessage(message: OmitPartialGroupDMChannel<Message<boolean>>): Promise<boolean> {
+export async function isTargetMessage(message: Message<boolean>): Promise<boolean> {
 	if (message.author.bot) return false;
 	if (!message.guild) return false;
 	if (!message.mentions.has(CLIENT_ID)) return false;
@@ -30,7 +30,7 @@ export async function isTargetMessage(message: OmitPartialGroupDMChannel<Message
  * @param message Discord.jsのMessageオブジェクト
  * @returns メッセージでメンションされたユーザーIDの配列
  */
-export async function getTargetUsers(message: OmitPartialGroupDMChannel<Message<boolean>>): Promise<string[]> {
+export async function getTargetUsers(message: Message<boolean>): Promise<string[]> {
 	const botId = message.client.user.id;
 	const authorId = message.author.id;
 	const userIds = new Set<string>();

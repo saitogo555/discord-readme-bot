@@ -1,5 +1,6 @@
 import { type CacheType, type ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { helpCommandHandler } from "./helpCommand";
+import { checkCommandHandler } from "./checkCommand";
 
 export interface Command {
 	name: string;
@@ -10,6 +11,7 @@ export interface Command {
 
 export const commands: Command[] = [
 	helpCommandHandler,
+	checkCommandHandler,
 ];
 
 export const slashCommandData = new SlashCommandBuilder()
@@ -27,7 +29,7 @@ export const slashCommandData = new SlashCommandBuilder()
 	.addSubcommand((subcommand) =>
 		subcommand
 			.setName("remind")
-			.setDescription("指定メッセージの未読者にリマインダーを送信")
+			.setDescription("指定メッセージの未読者にDMでリマインダーを送信")
 			.addStringOption((option) =>
 				option
 					.setName("message_id")

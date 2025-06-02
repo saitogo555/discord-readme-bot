@@ -2,13 +2,13 @@ import type {
 	Message,
 	MessageReaction,
 	MessageReactionEventDetails,
+	OmitPartialGroupDMChannel,
 	PartialMessageReaction,
 	PartialUser,
 	User,
-	OmitPartialGroupDMChannel,
 } from "discord.js";
-import { isTargetMessage } from "../utils/messageUtils";
 import { READ_REACTION_EMOJI } from "../config";
+import { isTargetMessage } from "../utils/messageUtils";
 
 /**
  * Discordのメッセージリアクション追加イベントを処理します。\
@@ -25,7 +25,7 @@ export async function messageReactionAddEventHandler(
 	_details: MessageReactionEventDetails,
 ) {
 	const message: OmitPartialGroupDMChannel<Message<boolean>> = await reaction.message.fetch();
-	
+
 	if (!(await isTargetMessage(message))) return;
 	if (reaction.emoji.name === READ_REACTION_EMOJI) return;
 

@@ -8,7 +8,7 @@ import { CLIENT_ID } from "../config";
  * 2. メッセージがギルド内で送信されていること
  * 3. メッセージ内にボット自身がメンションされていること
  * 4. メッセージ内でメンションされた対象ユーザーが存在すること
- * 
+ *
  * @param message Discord.jsのMessageオブジェクト
  * @returns 対象のメッセージであればtrue、そうでなければfalse
  */
@@ -58,9 +58,9 @@ export async function getTargetUsers(message: Message<boolean>): Promise<string[
 		const isEveryoneMentioned = message.content.includes("@everyone");
 		const isHereMentioned = message.content.includes("@here");
 		const isOnlyOnline = !isEveryoneMentioned && isHereMentioned;
-		
+
 		// メンバーキャッシュを更新
-		await message.guild.members.fetch(); 
+		await message.guild.members.fetch();
 
 		for (const member of message.guild.members.cache.values()) {
 			if (member.user.bot || member.id === botId || member.id === authorId) {

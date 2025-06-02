@@ -1,9 +1,10 @@
-import { Client, GatewayIntentBits, Partials } from "discord.js";
-import { DISCORD_TOKEN } from "./config";
+import { Client, GatewayIntentBits, Partials, REST, Routes } from "discord.js";
+import { CLIENT_ID, DISCORD_TOKEN } from "./config";
 import { messageCreateEventHandler } from "./events/messageCreateEvent";
 import { messageReactionAddEventHandler } from "./events/messageReactionAddEvent";
 import { messageUpdateEventHandler } from "./events/messageUpdateEvent";
 import { interactionCreateEventHandler } from "./events/interactionCreateEvent";
+import { slashCommandData } from "./commands";
 
 if (!DISCORD_TOKEN) {
 	console.error("❌ エラー: DISCORD_TOKENが設定されていません");
@@ -27,9 +28,16 @@ console.log("🤖 BOTを起動中...");
 
 client.login(DISCORD_TOKEN);
 
-client.on("ready", () => {
+client.on("ready", async () => {
+	console.log("✅ BOTがログインしました");
+
+	console.log("🔄 スラッシュコマンドを登録中...");
+	const rest = new REST().setToken(DISCORD_TOKEN);
+	await rest.put(Routes.applicationCommands(CLIENT_ID), { body: [slashCommandData.toJSON()] });
+	console.log("✅ スラッシュコマンドを登録しました");
+
 	console.log("✅ BOTが正常に起動しました！");
-	console.log("============== ボット情報 ==============");
+	console.log("============== BOT情報 ==============");
 	console.log(`ID: ${client.user?.id}`);
 	console.log(`ユーザー名: ${client.user?.tag}`);
 });

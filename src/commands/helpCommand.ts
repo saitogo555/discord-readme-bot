@@ -1,0 +1,27 @@
+import { EmbedBuilder, MessageFlags } from "discord.js";
+import { commands, type Command } from ".";
+import { COMMAND_NAME } from "../config";
+
+export const helpCommandHandler: Command = {
+	name: "help",
+	description: "コマンド一覧を表示する",
+	aliases: ["h"],
+	execute: async (interaction) => {
+		const embed = new EmbedBuilder()
+			.setTitle("🤖 コマンド一覧")
+			.setDescription("利用可能なコマンドの一覧です")
+			.setColor(0x3498db)
+			.addFields({
+				name: "",
+				value: commands
+					.map((cmd) => `**/${COMMAND_NAME} ${cmd.name}**: ${cmd.description}`)
+					.join("\n"),
+			})
+			.setTimestamp();
+
+		await interaction.reply({
+			embeds: [embed],
+			flags: [MessageFlags.Ephemeral],
+		});
+	},
+};

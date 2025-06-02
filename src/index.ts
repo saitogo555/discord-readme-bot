@@ -1,7 +1,8 @@
-import { Client, GatewayIntentBits } from "discord.js";
+import { Client, GatewayIntentBits, Partials } from "discord.js";
 import { messageCreateEventHandler } from "./events/messageCreateEvent";
 import { DISCORD_TOKEN } from "./config";
 import { messageUpdateEventHandler } from "./events/messageUpdateEvent";
+import { messageReactionAddEventHandler } from "./events/messageReactionAddEvent";
 
 if (!DISCORD_TOKEN) {
 	console.error("❌ エラー: DISCORD_TOKENが設定されていません");
@@ -16,7 +17,13 @@ const client: Client = new Client({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMembers,
 		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.GuildMessageReactions,
 	],
+	partials: [
+		Partials.Message,
+		Partials.Channel,
+		Partials.Reaction,
+	]
 });
 
 console.log("🤖 BOTを起動中...");
@@ -46,3 +53,4 @@ client.on("reconnecting", () => {
 
 client.on("messageCreate", messageCreateEventHandler);
 client.on("messageUpdate", messageUpdateEventHandler);
+client.on("messageReactionAdd", messageReactionAddEventHandler);

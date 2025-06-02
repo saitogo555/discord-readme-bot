@@ -1,6 +1,6 @@
 import type { Message, OmitPartialGroupDMChannel, PartialMessage } from "discord.js";
-import { CLIENT_ID, READ_REACTION_EMOJI } from "../config";
-import { getTargetUsers } from "../utils/messageUtils";
+import { READ_REACTION_EMOJI } from "../config";
+import { isTargetMessage } from "../utils/messageUtils";
 
 /**
  * Discordのメッセージ更新イベントを処理します。\
@@ -14,12 +14,7 @@ export async function messageUpdateEventHandler(
 	_: OmitPartialGroupDMChannel<Message<boolean> | PartialMessage>,
 	newMessage: OmitPartialGroupDMChannel<Message<boolean>>,
 ) {
-	if (newMessage.author.bot) return;
-	if (!newMessage.guild) return;
-	if (!newMessage.mentions.has(CLIENT_ID)) return;
-
-	const users = await getTargetUsers(newMessage);
-	if (users.length === 0) return;
+	if (!(await isTargetMessage(newMessage))) return;
 
 	await newMessage.react(READ_REACTION_EMOJI);
 }

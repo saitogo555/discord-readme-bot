@@ -1,4 +1,25 @@
-import type { Message, OmitPartialGroupDMChannel } from "discord.js";
+import type { Message } from "discord.js";
+import { CLIENT_ID } from "../config";
+
+/**
+ * 対象のメッセージか否かを判定します。\
+ * 対象条件は以下の通りです：
+ * 1. メッセージがボットによって送信されていないこと
+ * 2. メッセージがギルド内で送信されていること
+ * 3. メッセージ内にボット自身がメンションされていること
+ * 4. メッセージ内でメンションされた対象ユーザーが存在すること
+ * 
+ * @param message Discord.jsのMessageオブジェクト
+ * @returns 対象のメッセージであればtrue、そうでなければfalse
+ */
+export async function isTargetMessage(message: Message<boolean>): Promise<boolean> {
+	if (message.author.bot) return false;
+	if (!message.guild) return false;
+	if (!message.mentions.has(CLIENT_ID)) return false;
+	const users = await getTargetUsers(message);
+	if (users.length === 0) return false;
+	return true;
+}
 
 /**
  * メッセージでメンションされた対象ユーザーを取得します。\
@@ -9,7 +30,7 @@ import type { Message, OmitPartialGroupDMChannel } from "discord.js";
  * @param message Discord.jsのMessageオブジェクト
  * @returns メッセージでメンションされたユーザーIDの配列
  */
-export async function getTargetUsers(message: OmitPartialGroupDMChannel<Message<boolean>>): Promise<string[]> {
+export async function getTargetUsers(message: Message<boolean>): Promise<string[]> {
 	const botId = message.client.user.id;
 	const authorId = message.author.id;
 	const userIds = new Set<string>();

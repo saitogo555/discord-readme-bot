@@ -1,6 +1,6 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
 import { commands, type Command } from ".";
-import { COMMAND_NAME } from "../config";
+import { COMMAND_NAME, INFO_COLOR } from "../config";
 
 export const helpCommandHandler: Command = {
 	name: "help",
@@ -10,7 +10,7 @@ export const helpCommandHandler: Command = {
 		const embed = new EmbedBuilder()
 			.setTitle("🤖 コマンド一覧")
 			.setDescription("利用可能なコマンドの一覧です")
-			.setColor(0x3498db)
+			.setColor(INFO_COLOR)
 			.addFields({
 				name: "",
 				value: commands

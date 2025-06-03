@@ -1,4 +1,4 @@
-import type { Message } from "discord.js";
+import type { Message, User } from "discord.js";
 import { CLIENT_ID } from "../config";
 
 /**
@@ -30,17 +30,17 @@ export async function isTargetMessage(message: Message<boolean>): Promise<boolea
  * @param message Discord.jsのMessageオブジェクト
  * @returns メッセージでメンションされたユーザーIDの配列
  */
-export async function getTargetUsers(message: Message<boolean>): Promise<string[]> {
+export async function getTargetUsers(message: Message<boolean>): Promise<User[]> {
 	const botId = message.client.user.id;
 	const authorId = message.author.id;
-	const userIds = new Set<string>();
+	const users = new Set<User>();
 
 	if (!message.guild) return [];
 
 	// 直接メンションされたユーザーを取得
 	for (const user of message.mentions.users.values()) {
 		if (user.id !== botId && user.id !== authorId) {
-			userIds.add(user.id);
+			users.add(user);
 		}
 	}
 
@@ -48,7 +48,7 @@ export async function getTargetUsers(message: Message<boolean>): Promise<string[
 	for (const role of message.mentions.roles.values()) {
 		for (const member of role.members.values()) {
 			if (!member.user.bot && member.id !== botId && member.id !== authorId) {
-				userIds.add(member.id);
+				users.add(member.user);
 			}
 		}
 	}
@@ -69,9 +69,9 @@ export async function getTargetUsers(message: Message<boolean>): Promise<string[
 			if (isOnlyOnline && member.presence?.status === "offline") {
 				continue;
 			}
-			userIds.add(member.id);
+			users.add(member.user);
 		}
 	}
 
-	return Array.from(userIds);
+	return Array.from(users);
 }

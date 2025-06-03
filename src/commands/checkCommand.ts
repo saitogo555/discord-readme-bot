@@ -1,7 +1,8 @@
 import { EmbedBuilder, MessageFlags, type User } from "discord.js";
 import type { Command } from ".";
-import { ERROR_COLOR, INFO_COLOR } from "../config";
+import { INFO_COLOR } from "../config";
 import { getTargetUsers } from "../utils/messageUtils";
+import { buildErrorEmbed } from "../utils/embedUtils";
 
 export const checkCommandHandler: Command = {
 	name: "check",
@@ -10,33 +11,30 @@ export const checkCommandHandler: Command = {
 	execute: async (interaction) => {
 		const messageId = interaction.options.getString("message_id");
 		if (!messageId) {
-			const embed = new EmbedBuilder()
-				.setTitle("❌ エラー")
-				.setDescription("メッセージIDが指定されていません。")
-				.setColor(ERROR_COLOR);
-			await interaction.reply({ embeds: [embed], flags: [MessageFlags.Ephemeral] });
+			await interaction.reply({
+				embeds: [buildErrorEmbed("メッセージIDが指定されていません。")],
+				flags: [MessageFlags.Ephemeral],
+			});
 			return;
 		}
 
 		// チャンネルを取得
 		const channel = interaction.channel;
 		if (!channel) {
-			const embed = new EmbedBuilder()
-				.setTitle("❌ エラー")
-				.setDescription("メッセージを取得するチャンネルが見つかりません。")
-				.setColor(ERROR_COLOR);
-			await interaction.reply({ embeds: [embed], flags: [MessageFlags.Ephemeral] });
+			await interaction.reply({
+				embeds: [buildErrorEmbed("メッセージを取得するチャンネルが見つかりません。")],
+				flags: [MessageFlags.Ephemeral],
+			});
 			return;
 		}
 
 		// messageIdからメッセージを取得
 		const message = await channel.messages.fetch(messageId).catch(() => null);
 		if (!message) {
-			const embed = new EmbedBuilder()
-				.setTitle("❌ エラー")
-				.setDescription("指定されたメッセージが見つかりません。")
-				.setColor(ERROR_COLOR);
-			await interaction.reply({ embeds: [embed], flags: [MessageFlags.Ephemeral] });
+			await interaction.reply({
+				embeds: [buildErrorEmbed("指定されたメッセージが見つかりません。")],
+				flags: [MessageFlags.Ephemeral],
+			});
 			return;
 		}
 

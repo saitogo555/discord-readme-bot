@@ -1,6 +1,7 @@
 import { MessageFlags, type CacheType, type Interaction } from "discord.js";
 import { COMMAND_NAME } from "../config";
 import { commands } from "../commands";
+import { buildInfoEmbed } from "../utils/embedUtils";
 
 export async function interactionCreateEventHandler(interaction: Interaction<CacheType>): Promise<void> {
   if (!interaction.isChatInputCommand()) return;
@@ -14,8 +15,10 @@ export async function interactionCreateEventHandler(interaction: Interaction<Cac
     }
   }
 
+  // buildInfoEmbedを使って、コマンドが存在しないことを通知
+  // ここでは、MessageFlags.Ephemeralを使用して、ユーザーにのみ表示されるメッセージを送信
   await interaction.reply({
-    content: `コマンド「/${COMMAND_NAME} ${subcommand}」は存在しません。`,
+    embeds: [buildInfoEmbed(`コマンド「/${COMMAND_NAME} ${subcommand}」は存在しません。`)],
     flags: MessageFlags.Ephemeral
   });
 }

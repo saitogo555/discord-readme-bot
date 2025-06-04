@@ -7,7 +7,6 @@ import { buildErrorEmbed } from "../utils/embedUtils";
 export const checkCommandHandler: Command = {
 	name: "check",
 	description: "指定メッセージの既読状況を確認する",
-	aliases: ["c"],
 	execute: async (interaction) => {
 		const messageId = interaction.options.getString("message_id");
 		if (!messageId) {

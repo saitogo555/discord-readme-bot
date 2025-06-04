@@ -6,7 +6,6 @@ import { remindCommandHandler } from "./remindCommand";
 export interface Command {
 	name: string;
 	description: string;
-	aliases: string[];
 	execute: (interaction: ChatInputCommandInteraction<CacheType>) => Promise<void>;
 }
 

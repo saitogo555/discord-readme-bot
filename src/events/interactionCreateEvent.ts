@@ -8,7 +8,7 @@ export async function interactionCreateEventHandler(interaction: Interaction<Cac
 
   const subcommand = interaction.options.getSubcommand();
   for (const cmd of commands) {
-    if (cmd.name === subcommand || cmd.aliases.includes(subcommand)) {
+    if (cmd.name === subcommand) {
       await cmd.execute(interaction);
       return;
     }

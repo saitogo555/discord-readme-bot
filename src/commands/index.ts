@@ -1,6 +1,7 @@
 import { type CacheType, type ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { helpCommandHandler } from "./helpCommand";
 import { checkCommandHandler } from "./checkCommand";
+import { remindCommandHandler } from "./remindCommand";
 
 export interface Command {
 	name: string;
@@ -12,6 +13,7 @@ export interface Command {
 export const commands: Command[] = [
 	helpCommandHandler,
 	checkCommandHandler,
+	remindCommandHandler,
 ];
 
 export const slashCommandData = new SlashCommandBuilder()

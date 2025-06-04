@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, REST, Routes } from "discord.js";
+import { ActivityType, Client, GatewayIntentBits, REST, Routes } from "discord.js";
 import { slashCommandData } from "./commands";
 import { CLIENT_ID, DISCORD_TOKEN } from "./config";
 import { interactionCreateEventHandler } from "./events/interactionCreateEvent";
@@ -37,6 +37,9 @@ client.on("ready", async () => {
 	console.log("============== BOT情報 ==============");
 	console.log(`ID: ${client.user?.id}`);
 	console.log(`ユーザー名: ${client.user?.tag}`);
+	client.user?.setActivity(`/${slashCommandData.name} help`, {
+		type: ActivityType.Watching,
+	});
 });
 
 client.on("error", (error) => {

@@ -1,5 +1,5 @@
 import { EmbedBuilder, MessageFlags } from "discord.js";
-import { commands, type Command } from ".";
+import { type Command, commands } from ".";
 import { COMMAND_NAME, INFO_COLOR } from "../config";
 
 export const helpCommandHandler: Command = {

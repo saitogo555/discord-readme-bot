@@ -1,5 +1,5 @@
-import type { Command } from ".";
 import { EmbedBuilder, MessageFlags } from "discord.js";
+import type { Command } from ".";
 import { buildErrorEmbed, buildInfoEmbed, buildSuccessEmbed } from "../utils/embedUtils";
 import { getTargetUsers } from "../utils/messageUtils";
 
@@ -51,14 +51,14 @@ export const remindCommandHandler: Command = {
 		const targetUsers = await getTargetUsers(message);
 		const unreadUsers = targetUsers.filter((user) => !reactedUsers.has(user));
 
-    // 未読ユーザーがいない場合は終了
-    if (unreadUsers.length === 0) {
-      await interaction.reply({
-        embeds: [buildInfoEmbed("未読のユーザーはいません。")],
-        flags: [MessageFlags.Ephemeral],
-      });
-      return;
-    }
+		// 未読ユーザーがいない場合は終了
+		if (unreadUsers.length === 0) {
+			await interaction.reply({
+				embeds: [buildInfoEmbed("未読のユーザーはいません。")],
+				flags: [MessageFlags.Ephemeral],
+			});
+			return;
+		}
 
 		// 未読者にDMで未読メッセージへのリンク付きでモダンなスタイルのリマインドメッセージを送信
 		for (const user of unreadUsers) {

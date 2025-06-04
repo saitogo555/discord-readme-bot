@@ -1,8 +1,8 @@
 import { EmbedBuilder, MessageFlags, type User } from "discord.js";
 import type { Command } from ".";
 import { INFO_COLOR } from "../config";
-import { getTargetUsers } from "../utils/messageUtils";
 import { buildErrorEmbed } from "../utils/embedUtils";
+import { getTargetUsers } from "../utils/messageUtils";
 
 export const checkCommandHandler: Command = {
 	name: "check",

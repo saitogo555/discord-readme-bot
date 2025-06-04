@@ -1,6 +1,6 @@
 import { type CacheType, type ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import { helpCommandHandler } from "./helpCommand";
 import { checkCommandHandler } from "./checkCommand";
+import { helpCommandHandler } from "./helpCommand";
 import { remindCommandHandler } from "./remindCommand";
 
 export interface Command {
@@ -10,11 +10,7 @@ export interface Command {
 	execute: (interaction: ChatInputCommandInteraction<CacheType>) => Promise<void>;
 }
 
-export const commands: Command[] = [
-	helpCommandHandler,
-	checkCommandHandler,
-	remindCommandHandler,
-];
+export const commands: Command[] = [helpCommandHandler, checkCommandHandler, remindCommandHandler];
 
 export const slashCommandData = new SlashCommandBuilder()
 	.setName("readme")

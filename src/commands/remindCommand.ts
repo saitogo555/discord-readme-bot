@@ -6,7 +6,6 @@ import { getTargetUsers } from "../utils/messageUtils";
 export const remindCommandHandler: Command = {
 	name: "remind",
 	description: "指定メッセージの未読者にDMでリマインダーを送信",
-	aliases: ["r"],
 	execute: async (interaction) => {
 		const messageId = interaction.options.getString("message_id");
 		if (!messageId) {

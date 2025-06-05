@@ -2,20 +2,26 @@ import { type CacheType, type ChatInputCommandInteraction, SlashCommandBuilder }
 import { checkCommandHandler } from "./checkCommand";
 import { helpCommandHandler } from "./helpCommand";
 import { remindCommandHandler } from "./remindCommand";
+import { usageCommandHandler } from "./usageCommand";
 
 export interface Command {
 	name: string;
 	description: string;
-	aliases: string[];
 	execute: (interaction: ChatInputCommandInteraction<CacheType>) => Promise<void>;
 }
 
-export const commands: Command[] = [helpCommandHandler, checkCommandHandler, remindCommandHandler];
+export const commands: Command[] = [
+	helpCommandHandler,
+	usageCommandHandler,
+	checkCommandHandler,
+	remindCommandHandler,
+];
 
 export const slashCommandData = new SlashCommandBuilder()
 	.setName("readme")
 	.setDescription("既読管理コマンド")
 	.addSubcommand((subcommand) => subcommand.setName("help").setDescription("コマンド一覧を表示"))
+	.addSubcommand((subcommand) => subcommand.setName("usage").setDescription("使い方を表示"))
 	.addSubcommand((subcommand) =>
 		subcommand
 			.setName("check")

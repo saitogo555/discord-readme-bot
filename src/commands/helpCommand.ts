@@ -5,7 +5,6 @@ import { COMMAND_NAME, INFO_COLOR } from "../config";
 export const helpCommandHandler: Command = {
 	name: "help",
 	description: "コマンド一覧を表示する",
-	aliases: ["h"],
 	execute: async (interaction) => {
 		const embed = new EmbedBuilder()
 			.setTitle("🤖 コマンド一覧")

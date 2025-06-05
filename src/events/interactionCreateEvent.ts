@@ -1,7 +1,7 @@
-import { type CacheType, type Interaction, MessageFlags } from "discord.js";
-import { commands } from "../commands";
+import { MessageFlags, PermissionFlagsBits, type CacheType, type Interaction } from "discord.js";
 import { COMMAND_NAME } from "../config";
-import { buildInfoEmbed } from "../utils/embedUtils";
+import { commands } from "../commands";
+import { buildErrorEmbed } from "../utils/embedUtils";
 
 export async function interactionCreateEventHandler(
 	interaction: Interaction<CacheType>,
@@ -9,18 +9,28 @@ export async function interactionCreateEventHandler(
 	if (!interaction.isChatInputCommand()) return;
 	if (interaction.commandName !== COMMAND_NAME) return;
 
-	const subcommand = interaction.options.getSubcommand();
-	for (const cmd of commands) {
-		if (cmd.name === subcommand || cmd.aliases.includes(subcommand)) {
-			await cmd.execute(interaction);
-			return;
-		}
+	// 権限のあるユーザーのみが実行できるようにする
+	if (
+		!interaction.guild ||
+		!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)
+	) {
+		await interaction.reply({
+			embeds: [buildErrorEmbed("このコマンドを実行する権限がありません。")],
+			flags: MessageFlags.Ephemeral,
+		});
+		return;
 	}
 
-	// buildInfoEmbedを使って、コマンドが存在しないことを通知
-	// ここでは、MessageFlags.Ephemeralを使用して、ユーザーにのみ表示されるメッセージを送信
-	await interaction.reply({
-		embeds: [buildInfoEmbed(`コマンド「/${COMMAND_NAME} ${subcommand}」は存在しません。`)],
-		flags: MessageFlags.Ephemeral,
-	});
+  const subcommand = interaction.options.getSubcommand();
+  for (const cmd of commands) {
+    if (cmd.name === subcommand || cmd.aliases.includes(subcommand)) {
+      await cmd.execute(interaction);
+      return;
+    }
+  }
+
+  await interaction.reply({
+    content: `コマンド「/${COMMAND_NAME} ${subcommand}」は存在しません。`,
+    flags: MessageFlags.Ephemeral
+  });
 }

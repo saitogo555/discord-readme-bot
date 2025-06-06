@@ -1,10 +1,12 @@
 import { ActivityType, Client, GatewayIntentBits, REST, Routes } from "discord.js";
 import { slashCommandData } from "./commands";
-import { CLIENT_ID, DISCORD_TOKEN } from "./config";
+import { CLIENT_ID, DISCORD_TOKEN, PORT } from "./config";
 import { interactionCreateEventHandler } from "./events/interactionCreateEvent";
 import { messageCreateEventHandler } from "./events/messageCreateEvent";
 import { messageReactionAddEventHandler } from "./events/messageReactionAddEvent";
 import { messageUpdateEventHandler } from "./events/messageUpdateEvent";
+import healthCheckServer from "./server";
+import { serve } from "@hono/node-server";
 
 // トークンが設定されていない場合は終了
 if (!DISCORD_TOKEN) {
@@ -62,3 +64,15 @@ client.on("messageCreate", messageCreateEventHandler);
 client.on("messageUpdate", messageUpdateEventHandler);
 client.on("messageReactionAdd", messageReactionAddEventHandler);
 client.on("interactionCreate", interactionCreateEventHandler);
+
+// Koyeb用のヘルスチェックサーバーを起動
+// https://www.koyeb.com/docs/run-and-scale/health-checks
+console.log("🌐 ヘルスチェックサーバーを起動中...");
+
+serve({
+	fetch: healthCheckServer.fetch,
+	port: PORT,
+});
+
+console.log("✅ ヘルスチェックサーバーが起動しました");
+console.log(`🔗 ヘルスチェックURL: http://localhost:${PORT}`);

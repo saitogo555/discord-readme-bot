@@ -9,7 +9,7 @@ export async function interactionCreateEventHandler(
 	if (!interaction.isChatInputCommand()) return;
 	if (interaction.commandName !== COMMAND_NAME) return;
 
-	// 権限のあるユーザーのみが実行できるようにする
+	// 管理者権限チェック
 	if (
 		!interaction.guild ||
 		!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)
@@ -21,16 +21,18 @@ export async function interactionCreateEventHandler(
 		return;
 	}
 
-  const subcommand = interaction.options.getSubcommand();
-  for (const cmd of commands) {
-    if (cmd.name === subcommand) {
-      await cmd.execute(interaction);
-      return;
-    }
-  }
+	// サブコマンドを実行
+	const subcommand = interaction.options.getSubcommand();
+	for (const cmd of commands) {
+		if (cmd.name === subcommand) {
+			await cmd.execute(interaction);
+			return;
+		}
+	}
 
-  await interaction.reply({
-    content: `コマンド「/${COMMAND_NAME} ${subcommand}」は存在しません。`,
-    flags: MessageFlags.Ephemeral
-  });
+	// サブコマンドが見つからない場合
+	await interaction.reply({
+		content: `コマンド「/${COMMAND_NAME} ${subcommand}」は存在しません。`,
+		flags: MessageFlags.Ephemeral
+	});
 }

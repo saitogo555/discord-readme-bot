@@ -17,7 +17,6 @@ export const checkCommandHandler: Command = {
 			return;
 		}
 
-		// チャンネルを取得
 		const channel = interaction.channel;
 		if (!channel) {
 			await interaction.reply({
@@ -27,7 +26,7 @@ export const checkCommandHandler: Command = {
 			return;
 		}
 
-		// messageIdからメッセージを取得
+		// メッセージを取得
 		const message = await channel.messages.fetch(messageId).catch(() => null);
 		if (!message) {
 			await interaction.reply({
@@ -37,7 +36,7 @@ export const checkCommandHandler: Command = {
 			return;
 		}
 
-		// リアクションしたユーザーを取得
+		// 既読ユーザーを取得（リアクションしたユーザー）
 		const reactedUsers = new Set<User>();
 		for (const reaction of message.reactions.cache.values()) {
 			const users = await reaction.users.fetch();
@@ -47,12 +46,12 @@ export const checkCommandHandler: Command = {
 			}
 		}
 
-		// 既読・未読ユーザーの分類
+		// 既読・未読ユーザーを分類
 		const targetUsers = await getTargetUsers(message);
 		const readUsers = targetUsers.filter((user) => reactedUsers.has(user));
 		const unreadUsers = targetUsers.filter((user) => !reactedUsers.has(user));
 
-		// 結果をEmbedで表示
+		// 結果を表示
 		const embed = new EmbedBuilder()
 			.setTitle("📋 既読状況確認")
 			.setColor(INFO_COLOR)

@@ -6,6 +6,7 @@ import { messageCreateEventHandler } from "./events/messageCreateEvent";
 import { messageReactionAddEventHandler } from "./events/messageReactionAddEvent";
 import { messageUpdateEventHandler } from "./events/messageUpdateEvent";
 
+// トークンが設定されていない場合は終了
 if (!DISCORD_TOKEN) {
 	console.error("❌ エラー: DISCORD_TOKENが設定されていません");
 	console.error("💡 .envファイルでDISCORD_TOKENを設定してください");
@@ -56,6 +57,7 @@ client.on("reconnecting", () => {
 	console.log("🔄 Discordへの再接続を試行中...");
 });
 
+// イベントハンドラーを登録
 client.on("messageCreate", messageCreateEventHandler);
 client.on("messageUpdate", messageUpdateEventHandler);
 client.on("messageReactionAdd", messageReactionAddEventHandler);

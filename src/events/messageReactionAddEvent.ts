@@ -11,13 +11,8 @@ import { READ_REACTION_EMOJI } from "../config";
 import { isTargetMessage } from "../utils/messageUtils";
 
 /**
- * Discordのメッセージリアクション追加イベントを処理します。\
- * このイベントは、メッセージにリアクションが追加されたときに発火します。
- *
- * @param reaction MessageReactionオブジェクトまたはその部分的なバージョン
- * @param user リアクションを追加したユーザーのUserオブジェクトまたはその部分的なバージョン
- * @param details イベントの詳細情報を含むMessageReactionEventDetailsオブジェクト
- * @returns
+ * リアクション追加時の処理
+ * 既読管理対象のメッセージで既読リアクション以外が追加された場合、削除する
  */
 export async function messageReactionAddEventHandler(
 	reaction: MessageReaction | PartialMessageReaction,
@@ -29,5 +24,6 @@ export async function messageReactionAddEventHandler(
 	if (!(await isTargetMessage(message))) return;
 	if (reaction.emoji.name === READ_REACTION_EMOJI) return;
 
+	// 既読リアクション以外は削除
 	await reaction.users.remove(user.id);
 }

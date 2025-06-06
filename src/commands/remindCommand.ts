@@ -16,7 +16,6 @@ export const remindCommandHandler: Command = {
 			return;
 		}
 
-		// チャンネルを取得
 		const channel = interaction.channel;
 		if (!channel) {
 			await interaction.reply({
@@ -26,7 +25,7 @@ export const remindCommandHandler: Command = {
 			return;
 		}
 
-		// messageIdからメッセージを取得
+		// メッセージを取得
 		const message = await channel.messages.fetch(messageId).catch(() => null);
 		if (!message) {
 			await interaction.reply({
@@ -36,7 +35,7 @@ export const remindCommandHandler: Command = {
 			return;
 		}
 
-		// リアクションしたユーザーを取得
+		// 既読ユーザーを取得（リアクションしたユーザー）
 		const reactedUsers = new Set();
 		for (const reaction of message.reactions.cache.values()) {
 			const users = await reaction.users.fetch();
@@ -46,11 +45,10 @@ export const remindCommandHandler: Command = {
 			}
 		}
 
-		// 未読ユーザーの取得
+		// 未読ユーザーを特定
 		const targetUsers = await getTargetUsers(message);
 		const unreadUsers = targetUsers.filter((user) => !reactedUsers.has(user));
 
-		// 未読ユーザーがいない場合は終了
 		if (unreadUsers.length === 0) {
 			await interaction.reply({
 				embeds: [buildInfoEmbed("未読のユーザーはいません。")],
@@ -59,7 +57,7 @@ export const remindCommandHandler: Command = {
 			return;
 		}
 
-		// 未読者にDMで未読メッセージへのリンク付きでモダンなスタイルのリマインドメッセージを送信
+		// 未読者にDMリマインダーを送信
 		for (const user of unreadUsers) {
 			try {
 				const reminderEmbed = new EmbedBuilder()

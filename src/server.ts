@@ -6,10 +6,8 @@ const app = new Hono();
 app.get("/", (c) => {
 	return c.json({
 		status: "ok",
-		name: "Discord Readme Bot",
+		message: "Discord Readme Bot is running",
 		node_version: process.version,
-		platform: process.platform,
-		memory_usage: process.memoryUsage(),
 		timestamp: new Date().toISOString(),
 	});
 });

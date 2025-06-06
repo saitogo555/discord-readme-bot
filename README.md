@@ -102,27 +102,6 @@ npm start
 
 ## 📖 使い方
 
-### 基本的な流れ
-
-```mermaid
-graph TD
-    A[メッセージ投稿<br/>ReadmeBotと対象ユーザーをメンション] --> B[ Botがリアクション追加<br/>自動で👀リアクションを追加]
-    B --> C[👀 ユーザーが既読確認<br/>リアクションをクリック]
-    C --> D{全員既読？}
-    D -->|はい| E[✅ 完了]
-    D -->|いいえ| F[管理者が状況確認<br/>スラッシュコマンドで確認]
-    F --> G[未読者にリマインダー<br/>DMで通知送信]
-    G --> C
-    
-    style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    style B fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    style C fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
-    style D fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style E fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
-    style F fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style G fill:#fce4ec,stroke:#880e4f,stroke-width:2px
-```
-
 ### 1. メッセージの投稿
 ReadmeBotをメンションして、対象ユーザーもメンションしたメッセージを送信します。
 

@@ -9,6 +9,9 @@ export const CLIENT_ID = process.env.CLIENT_ID || "";
 export const READ_REACTION_EMOJI = process.env.READ_REACTION_EMOJI || "👀";
 export const COMMAND_NAME = process.env.COMMAND_NAME || "readme";
 
+// サーバー設定
+export const PORT = Number(process.env.PORT) || 8000;
+
 // Embed色設定
 export const INFO_COLOR: ColorResolvable = 0x3498db;
 export const SUCCESS_COLOR: ColorResolvable = 0x2ecc71;

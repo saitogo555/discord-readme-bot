@@ -16,7 +16,8 @@
     "@hono/node-server": "^1.14.3",
     "discord.js": "^14.19.3",
     "dotenv": "^16.5.0",
-    "hono": "^4.7.11"
+    "hono": "^4.7.11",
+    "node-cron": "^4.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

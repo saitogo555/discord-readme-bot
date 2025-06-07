@@ -9,7 +9,7 @@ export function startHealthCheckCron() {
   cron.schedule("*/10 * * * *", async () => {
     try {
       const now = new Date().toLocaleString('ja-JP');
-      console.log(`🔍 [${now}] ヘルスチェック実行中...`);
+      console.log(`🔍 [${now}] ヘルスチェック実行中... (${HEALTH_CHECK_URL})`);
       const response = await fetch(HEALTH_CHECK_URL);
 
       if (response.ok) {

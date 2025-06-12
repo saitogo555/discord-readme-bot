@@ -8,20 +8,20 @@ export const checkCommandHandler: Command = {
 	name: "check",
 	description: "指定メッセージの既読状況を確認する",
 	execute: async (interaction) => {
+		await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
 		const messageId = interaction.options.getString("message_id");
 		if (!messageId) {
-			await interaction.reply({
+			await interaction.editReply({
 				embeds: [buildErrorEmbed("メッセージIDが指定されていません。")],
-				flags: [MessageFlags.Ephemeral],
 			});
 			return;
 		}
 
 		const channel = interaction.channel;
 		if (!channel) {
-			await interaction.reply({
+			await interaction.editReply({
 				embeds: [buildErrorEmbed("メッセージを取得するチャンネルが見つかりません。")],
-				flags: [MessageFlags.Ephemeral],
 			});
 			return;
 		}
@@ -29,9 +29,8 @@ export const checkCommandHandler: Command = {
 		// メッセージを取得
 		const message = await channel.messages.fetch(messageId).catch(() => null);
 		if (!message) {
-			await interaction.reply({
+			await interaction.editReply({
 				embeds: [buildErrorEmbed("指定されたメッセージが見つかりません。")],
-				flags: [MessageFlags.Ephemeral],
 			});
 			return;
 		}
@@ -70,6 +69,6 @@ export const checkCommandHandler: Command = {
 				},
 			);
 
-		await interaction.reply({ embeds: [embed], flags: [MessageFlags.Ephemeral] });
+		await interaction.editReply({ embeds: [embed] });
 	},
 };

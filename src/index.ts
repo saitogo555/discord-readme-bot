@@ -2,6 +2,7 @@ import {
   ActivityType,
   Client,
   GatewayIntentBits,
+  Partials,
   REST,
   Routes,
 } from "discord.js";
@@ -31,12 +32,13 @@ const client: Client = new Client({
     GatewayIntentBits.GuildPresences,
     GatewayIntentBits.GuildMessageReactions,
   ],
+  partials: [Partials.Message, Partials.Reaction, Partials.Channel],
 });
 
 console.log("🤖 BOTを起動中...");
 
 client.login(DISCORD_TOKEN);
-
+  
 client.on("ready", async () => {
   console.log("✅ BOTがログインしました");
   console.log("🔄 スラッシュコマンドを登録中...");

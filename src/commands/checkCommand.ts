@@ -23,7 +23,10 @@ const sendResponse = async (
 ) => {
   try {
     if (interaction.deferred) {
-      await interaction.editReply({ embeds: [embed], components: components ? components : [] });
+      await interaction.editReply({
+        embeds: [embed],
+        components: components ? components : [],
+      });
     } else {
       await interaction.reply({
         embeds: [
@@ -47,7 +50,6 @@ export const checkCommandHandler: Command = {
   name: "check",
   description: "指定メッセージの既読状況を確認する",
   execute: async (interaction) => {
-    // インタラクションの初期応答をエラーハンドリング付きで実行
     try {
       if (!interaction.deferred && !interaction.replied) {
         await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
@@ -68,20 +70,10 @@ export const checkCommandHandler: Command = {
 
     const messageId = interaction.options.getString("message_id");
     if (!messageId) {
-      try {
-        const errorEmbed =
-          buildErrorEmbed("メッセージIDが指定されていません。");
-        if (interaction.deferred) {
-          await interaction.editReply({ embeds: [errorEmbed] });
-        } else {
-          await interaction.reply({
-            embeds: [errorEmbed],
-            flags: [MessageFlags.Ephemeral],
-          });
-        }
-      } catch (error) {
-        console.error("Failed to send error reply:", error);
-      }
+      sendResponse(
+        interaction,
+        buildErrorEmbed("メッセージIDが指定されていません。")
+      );
       return;
     }
 

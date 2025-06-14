@@ -170,7 +170,7 @@ export const remindCommandHandler: Command = {
           ],
         });
       } catch (error) {
-        console.error(`Failed to send reminder to ${user.tag}:`, error);
+        console.error(`Failed to send reminder to ${user.displayName}(@${user.tag}):`, error);
       }
     }
 

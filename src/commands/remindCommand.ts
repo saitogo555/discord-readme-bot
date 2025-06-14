@@ -61,6 +61,7 @@ export const remindCommandHandler: Command = {
       console.error("Failed to defer reply:", error);
     }
 
+		// 管理者権限チェック
     if (
       !interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)
     ) {
@@ -71,6 +72,7 @@ export const remindCommandHandler: Command = {
       return;
     }
 
+		// メッセージIDの取得
     const messageId = interaction.options.getString("message_id");
     if (!messageId) {
       sendResponse(
@@ -80,6 +82,7 @@ export const remindCommandHandler: Command = {
       return;
     }
 
+		// サーバーの取得
     const guild = interaction.guild;
     if (!guild) {
       sendResponse(
@@ -89,7 +92,7 @@ export const remindCommandHandler: Command = {
       return;
     }
 
-    // メッセージを取得
+		// メッセージの取得
     const message = await findMessageInGuild(guild, messageId);
     if (!message) {
       sendResponse(

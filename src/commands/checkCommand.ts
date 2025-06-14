@@ -68,6 +68,7 @@ export const checkCommandHandler: Command = {
       console.error("Failed to defer reply:", error);
     }
 
+    // メッセージIDの取得
     const messageId = interaction.options.getString("message_id");
     if (!messageId) {
       sendResponse(
@@ -77,6 +78,7 @@ export const checkCommandHandler: Command = {
       return;
     }
 
+    // サーバーの取得
     const guild = interaction.guild;
     if (!guild) {
       sendResponse(
@@ -86,7 +88,7 @@ export const checkCommandHandler: Command = {
       return;
     }
 
-    // メッセージを取得
+    // メッセージの取得
     const message = await findMessageInGuild(guild, messageId);
     if (!message) {
       sendResponse(

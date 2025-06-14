@@ -1,4 +1,4 @@
-import type { Message, User } from "discord.js";
+import type { Guild, Message, User } from "discord.js";
 import { CLIENT_ID } from "../config";
 
 /**
@@ -62,4 +62,20 @@ export async function getTargetUsers(message: Message<boolean>): Promise<User[]>
 	}
 
 	return Array.from(users);
+}
+
+export async function findMessageInGuild(guild: Guild, messageId: string): Promise<Message | null> {
+	// ギルド内のすべてのチャンネルを取得
+	const channels = await guild.channels.fetch();
+	if (channels.size === 0) return null;
+
+	// 各チャンネルからメッセージを検索
+	for (const channel of channels.values()) {
+		if (!channel) continue;
+		if (!channel.isTextBased()) continue;
+		if (!channel.viewable) continue;
+		const message = await channel.messages.fetch(messageId).catch(() => null);
+		if (message) return message;
+	}
+	return null;
 }

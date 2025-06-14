@@ -1,6 +1,7 @@
 import {
   EmbedBuilder,
   MessageFlags,
+  PermissionFlagsBits,
   type ChatInputCommandInteraction,
 } from "discord.js";
 import type { Command } from ".";
@@ -58,6 +59,16 @@ export const remindCommandHandler: Command = {
       }
     } catch (error) {
       console.error("Failed to defer reply:", error);
+    }
+
+    if (
+      !interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)
+    ) {
+      sendResponse(
+        interaction,
+        buildErrorEmbed("このコマンドを実行する権限がありません。")
+      );
+      return;
     }
 
     const messageId = interaction.options.getString("message_id");

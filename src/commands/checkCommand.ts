@@ -2,6 +2,7 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  type ChatInputCommandInteraction,
   ComponentType,
   EmbedBuilder,
   MessageFlags,
@@ -15,40 +16,93 @@ import { findMessageInGuild, getTargetUsers } from "../utils/messageUtils";
 // 1ページあたりの表示ユーザー数
 const USERS_PER_PAGE = 20;
 
+const sendResponse = async (
+  interaction: ChatInputCommandInteraction,
+  embed: EmbedBuilder,
+  components?: ActionRowBuilder<ButtonBuilder>[]
+) => {
+  try {
+    if (interaction.deferred) {
+      await interaction.editReply({ embeds: [embed], components: components ? components : [] });
+    } else {
+      await interaction.reply({
+        embeds: [
+          buildErrorEmbed(
+            "処理に時間がかかりすぎました。もう一度お試しください。"
+          ),
+        ],
+        flags: [MessageFlags.Ephemeral],
+      });
+    }
+  } catch (error) {
+    console.error("Failed to send response:", error);
+    await interaction.followUp({
+      embeds: [buildErrorEmbed("応答の送信に失敗しました。")],
+      flags: [MessageFlags.Ephemeral],
+    });
+  }
+};
+
 export const checkCommandHandler: Command = {
   name: "check",
   description: "指定メッセージの既読状況を確認する",
   execute: async (interaction) => {
-    await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+    // インタラクションの初期応答をエラーハンドリング付きで実行
+    try {
+      if (!interaction.deferred && !interaction.replied) {
+        await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+      } else {
+        await interaction.reply({
+          embeds: [
+            buildErrorEmbed(
+              "処理に時間がかかりすぎました。もう一度お試しください。"
+            ),
+          ],
+          flags: [MessageFlags.Ephemeral],
+        });
+        return;
+      }
+    } catch (error) {
+      console.error("Failed to defer reply:", error);
+    }
 
     const messageId = interaction.options.getString("message_id");
     if (!messageId) {
-      await interaction.editReply({
-        embeds: [buildErrorEmbed("メッセージIDが指定されていません。")],
-      });
+      try {
+        const errorEmbed =
+          buildErrorEmbed("メッセージIDが指定されていません。");
+        if (interaction.deferred) {
+          await interaction.editReply({ embeds: [errorEmbed] });
+        } else {
+          await interaction.reply({
+            embeds: [errorEmbed],
+            flags: [MessageFlags.Ephemeral],
+          });
+        }
+      } catch (error) {
+        console.error("Failed to send error reply:", error);
+      }
       return;
     }
 
     const guild = interaction.guild;
     if (!guild) {
-      await interaction.editReply({
-        embeds: [
-          buildErrorEmbed("このコマンドはサーバー内でのみ使用できます。"),
-        ],
-      });
+      sendResponse(
+        interaction,
+        buildErrorEmbed("このコマンドはサーバー内でのみ使用できます。")
+      );
       return;
     }
 
     // メッセージを取得
     const message = await findMessageInGuild(guild, messageId);
     if (!message) {
-      await interaction.editReply({
-        embeds: [
-          buildErrorEmbed(
-            "指定されたメッセージが存在しないか、読み取り権限の無いチャンネルのメッセージです。"
-          ),
-        ],
-      });
+      sendResponse(
+        interaction,
+        buildErrorEmbed(
+          "指定されたメッセージが存在しないか、読み取り権限の無いチャンネルのメッセージです。"
+        )
+      );
       return;
     }
 
@@ -155,24 +209,30 @@ export const checkCommandHandler: Command = {
     // 結果を表示
     const embed = createEmbed();
     const components = createComponent();
-    const response = await interaction.editReply({
-      embeds: [embed],
-      components,
-    });
+    sendResponse(interaction, embed, components);
 
     // ページネーションのインタラクションハンドラー
     if (components.length > 0) {
-      const collector = response.createMessageComponentCollector({
+      const collector = interaction.channel?.createMessageComponentCollector({
         componentType: ComponentType.Button,
         time: 5 * 60 * 1000, // 5分間有効
+        filter: (i) => i.user.id === interaction.user.id,
       });
+
+      if (!collector) {
+        return;
+      }
 
       collector.on("collect", async (event) => {
         if (event.user.id !== interaction.user.id) {
-          await event.reply({
-            content: "あなたの操作ではありません。",
-            flags: [MessageFlags.Ephemeral],
-          });
+          try {
+            await event.reply({
+              content: "あなたの操作ではありません。",
+              flags: [MessageFlags.Ephemeral],
+            });
+          } catch (error) {
+            console.error("Failed to send permission error:", error);
+          }
           return;
         }
 
@@ -187,16 +247,24 @@ export const checkCommandHandler: Command = {
         }
 
         // 更新されたEmbedとコンポーネントを表示
-        const updatedEmbed = createEmbed();
-        const updatedComponents = createComponent();
-        await event.update({
-          embeds: [updatedEmbed],
-          components: updatedComponents,
-        });
+        try {
+          const updatedEmbed = createEmbed();
+          const updatedComponents = createComponent();
+          await event.update({
+            embeds: [updatedEmbed],
+            components: updatedComponents,
+          });
+        } catch (error) {
+          console.error("Failed to update interaction:", error);
+        }
       });
 
       collector.on("end", () => {
-        interaction.editReply({ components: [] }); // コレクター終了時にコンポーネントを削除
+        try {
+          interaction.editReply({ components: [] }); // コレクター終了時にコンポーネントを削除
+        } catch (error) {
+          console.error("Failed to remove components:", error);
+        }
       });
     }
   },

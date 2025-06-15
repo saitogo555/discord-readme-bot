@@ -67,7 +67,7 @@ export const remindCommandHandler: Command = {
     ) {
       sendResponse(
         interaction,
-        buildErrorEmbed("このコマンドを実行する権限がありません。")
+        buildErrorEmbed("このコマンドを実行するには管理者権限が必要です。")
       );
       return;
     }

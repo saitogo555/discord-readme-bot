@@ -3,16 +3,19 @@ import { commands } from "../commands";
 import { COMMAND_NAME } from "../config";
 import { buildErrorEmbed } from "../utils/embedUtils";
 
+/**
+ * インタラクションイベントハンドラー
+ */
 export async function interactionCreateEventHandler(
 	interaction: Interaction<CacheType>,
 ): Promise<void> {
 	if (!interaction.isChatInputCommand()) return;
 	if (interaction.commandName !== COMMAND_NAME) return;
 
-	// 管理者権限チェック
+	// サーバーが存在しない場合、またはインタラクションがサーバー外で発生した場合
 	if (!interaction.guild) {
 		await interaction.reply({
-			embeds: [buildErrorEmbed("このコマンドを実行する権限がありません。")],
+			embeds: [buildErrorEmbed("このコマンドはサーバー内でのみ使用できます。")],
 			flags: MessageFlags.Ephemeral,
 		});
 		return;

@@ -3,8 +3,7 @@ import { READ_REACTION_EMOJI } from "../config";
 import { isTargetMessage } from "../utils/messageUtils";
 
 /**
- * メッセージ更新時の処理
- * 対象メッセージが更新された場合、既読リアクションを追加
+ * メッセージ更新イベントハンドラー
  */
 export async function messageUpdateEventHandler(
 	_: OmitPartialGroupDMChannel<Message<boolean> | PartialMessage>,

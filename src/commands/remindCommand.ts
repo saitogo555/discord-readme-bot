@@ -46,15 +46,6 @@ export const remindCommandHandler: Command = {
 			console.error("Failed to defer reply:", error);
 		}
 
-		// 管理者権限チェック
-		if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
-			sendResponse(
-				interaction,
-				buildErrorEmbed("このコマンドを実行するには管理者権限が必要です。"),
-			);
-			return;
-		}
-
 		// メッセージIDの取得
 		const messageId = interaction.options.getString("message_id");
 		if (!messageId) {
@@ -77,6 +68,18 @@ export const remindCommandHandler: Command = {
 				buildErrorEmbed(
 					"指定されたメッセージが存在しないか、読み取り権限の無いチャンネルのメッセージです。",
 				),
+			);
+			return;
+		}
+
+		// 権限チェック
+		const isAdmin = interaction.memberPermissions?.has(PermissionFlagsBits.Administrator);
+		const isSender = interaction.user.id === message.author.id;
+
+		if (!isAdmin && !isSender) {
+			sendResponse(
+				interaction,
+				buildErrorEmbed("このコマンドを実行するには管理者またはメッセージの投稿者である必要があります。"),
 			);
 			return;
 		}

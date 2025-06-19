@@ -81,13 +81,15 @@ bun install
 
 ### 3. 環境変数の設定
 
-`.env` ファイルを作成し、以下の内容を記述：
+`.env` ファイルを作成し、以下の内容を記述してください。
 
 ```env
-DISCORD_TOKEN=your_bot_token_here
-CLIENT_ID=your_bot_client_id_here
+DISCORD_TOKEN=your_bot_token_here # 必須
+CLIENT_ID=your_bot_client_id_here # 必須
 READ_REACTION_EMOJI=👀
 COMMAND_NAME=readme
+PORT=8000
+HEALTH_CHECK_URL="https://external-url:8000"
 ```
 
 ### 4. Botの起動
@@ -115,16 +117,16 @@ ReadmeBotをメンションして、対象ユーザーもメンションした�
 メッセージを読んだら👀リアクションをクリックします。
 
 ### 3. 管理・リマインダー
-管理者がスラッシュコマンドで既読状況を確認し、必要に応じてリマインダーを送信します。
+管理者または投稿者がコマンドで既読状況を確認し、必要に応じてリマインダーを送信します。
 
 ## ⚙️ コマンド
 
 | コマンド | 説明 | 権限 |
 |:---------|:------|:------|
-| `/readme help` | コマンド一覧を表示 | 管理者 |
-| `/readme usage` | 使い方ガイドを表示 | 管理者 |
-| `/readme check <message_id>` | 指定メッセージの既読状況を確認 | 管理者 |
-| `/readme remind <message_id>` | 未読者にDMリマインダーを送信 | 管理者 |
+| `/readme help` | コマンド一覧を表示 | 全員 |
+| `/readme usage` | 使い方ガイドを表示 | 全員 |
+| `/readme check <message_id>` | 指定メッセージの既読状況を確認 | 全員 |
+| `/readme remind <message_id>` | 未読者にDMリマインダーを送信 | 管理者, 投稿者 |
 
 ### 🎯 対象ユーザーの指定方法
 
@@ -142,7 +144,7 @@ ReadmeBotをメンションして、対象ユーザーもメンションした�
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat&logo=node.js&logoColor=white)
 ![Biome](https://img.shields.io/badge/Biome-60A5FA?style=flat&logo=biome&logoColor=white)
 
-- **[Discord.js v14](https://discord.js.org/)** - Discord Bot開発ライブラリ
+- **[Discord.js](https://discord.js.org/)** - Discord Bot開発ライブラリ
 - **[TypeScript](https://www.typescriptlang.org/)** - 型安全なJavaScript
 - **[Biome](https://biomejs.dev/)** - 高速なフォーマッター・リンター
 - **[tsx](https://github.com/esbuild-kit/tsx)** - TypeScript実行環境
@@ -173,7 +175,7 @@ COMMAND_NAME=kidoku
 
 ### 色のカスタマイズ
 
-`src/config.ts` でEmbed色を変更できます：
+`src/config.ts`でEmbed色を変更できます。
 
 ```typescript
 export const INFO_COLOR: ColorResolvable = 0x3498db;    // 青

@@ -11,8 +11,7 @@ import { READ_REACTION_EMOJI } from "../config";
 import { isTargetMessage } from "../utils/messageUtils";
 
 /**
- * リアクション追加時の処理
- * 既読管理対象のメッセージで既読リアクション以外が追加された場合、削除する
+ * メッセージリアクション追加イベントハンドラー
  */
 export async function messageReactionAddEventHandler(
 	reaction: MessageReaction | PartialMessageReaction,

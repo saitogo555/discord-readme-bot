@@ -72,7 +72,7 @@ export const remindCommandHandler: Command = {
 			return;
 		}
 
-		// 管理者権限チェック
+		// 権限チェック
 		const isAdmin = interaction.memberPermissions?.has(PermissionFlagsBits.Administrator);
 		const isSender = interaction.user.id === message.author.id;
 

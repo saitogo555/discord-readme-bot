@@ -47,7 +47,9 @@ export const remindCommandHandler: Command = {
 		}
 
 		// 管理者権限チェック
-		if (!interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)) {
+		const isAdmin = interaction.memberPermissions?.has(PermissionFlagsBits.Administrator)
+
+		if (!isAdmin) {
 			sendResponse(
 				interaction,
 				buildErrorEmbed("このコマンドを実行するには管理者権限が必要です。"),

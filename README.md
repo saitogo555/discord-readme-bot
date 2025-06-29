@@ -11,13 +11,13 @@
 
 **Discordサーバーでメッセージの既読管理とリマインドするBot**
 
-[🚀 セットアップ](#-セットアップ) • [📖 使い方](#-使い方) • [⚙️ コマンド](#️-コマンド)
+[セットアップ](#-セットアップ) • [使い方](#-使い方) • [コマンド](#️-コマンド)
 
 </div>
 
 ---
 
-## ✨ 特徴
+## 特徴
 
 <div align="center">
 
@@ -50,14 +50,14 @@
 
 </div>
 
-## 🎯 使用場面
+## 使用場面
 
 - **重要なお知らせ**: 全メンバーに確実に読んでもらいたい情報
 - **イベント告知**: ゲームイベントや配信の告知
 - **業務連絡**: チーム内での重要な業務連絡
 - **学習グループ**: 課題や資料の共有確認
 
-## 🚀 セットアップ
+## セットアップ
 
 ### 前提条件
 
@@ -102,24 +102,27 @@ npm run watch
 npm start
 ```
 
-## 📖 使い方
+## 使い方
 
 ### 1. メッセージの投稿
+
 ReadmeBotをメンションして、対象ユーザーもメンションしたメッセージを送信します。
 
-```
+```text
 @ReadmeBot @開発チーム
 明日のリリースについて重要な変更があります。
 必ず15時までに確認をお願いします。
 ```
 
 ### 2. 既読確認
+
 メッセージを読んだら👀リアクションをクリックします。
 
 ### 3. 管理・リマインダー
+
 管理者または投稿者がコマンドで既読状況を確認し、必要に応じてリマインダーを送信します。
 
-## ⚙️ コマンド
+## コマンド
 
 | コマンド | 説明 | 権限 |
 |:---------|:------|:------|
@@ -128,7 +131,7 @@ ReadmeBotをメンションして、対象ユーザーもメンションした�
 | `/readme check <message_id>` | 指定メッセージの既読状況を確認 | 全員 |
 | `/readme remind <message_id>` | 未読者にDMリマインダーを送信 | 管理者, 投稿者 |
 
-### 🎯 対象ユーザーの指定方法
+### 対象ユーザーの指定方法
 
 | 指定方法 | 例 | 説明 |
 |:---------|:---|:------|
@@ -137,7 +140,7 @@ ReadmeBotをメンションして、対象ユーザーもメンションした�
 | **全員指定** | `@everyone` | サーバーメンバー全員 |
 | **オンライン指定** | `@here` | オンラインメンバーのみ |
 
-## 🛠️ 技術スタック
+## 技術スタック
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
 ![Discord.js](https://img.shields.io/badge/Discord.js-5865F2?style=flat&logo=discord&logoColor=white)
@@ -149,7 +152,7 @@ ReadmeBotをメンションして、対象ユーザーもメンションした�
 - **[Biome](https://biomejs.dev/)** - 高速なフォーマッター・リンター
 - **[tsx](https://github.com/esbuild-kit/tsx)** - TypeScript実行環境
 
-## 🔒 権限設定
+## 権限設定
 
 Botには以下の権限が必要です。
 
@@ -161,7 +164,7 @@ Botには以下の権限が必要です。
 | `Read Message History` | 過去メッセージ取得 |
 | `Use Slash Commands` | スラッシュコマンド使用 |
 
-## 🎨 カスタマイズ
+## カスタマイズ
 
 ### 環境変数での設定
 
@@ -184,7 +187,7 @@ export const WARNING_COLOR: ColorResolvable = 0xf1c40f; // 黄
 export const ERROR_COLOR: ColorResolvable = 0xe74c3c;   // 赤
 ```
 
-## 🐛 トラブルシューティング
+## トラブルシューティング
 
 <details>
 <summary>Bot が起動しない</summary>
@@ -212,7 +215,7 @@ export const ERROR_COLOR: ColorResolvable = 0xe74c3c;   // 赤
 
 </details>
 
-## 🤝 コントリビューション
+## コントリビューション
 
 コントリビューションを歓迎します！以下の手順でお願いします：
 
@@ -235,6 +238,6 @@ npm run biome:lint
 npm run biome:check
 ```
 
-## 📄 ライセンス
+## ライセンス
 
 このプロジェクトは [MIT License](LICENSE) の下で公開されています。

@@ -39,6 +39,12 @@ export const usageCommandHandler: Command = {
 					value:
 						"```\n@ReadmeBot @開発チーム\n明日のリリースについて重要な変更があります。\n必ず15時までに確認をお願いします。\n```\n↓ BOTが👀リアクションを自動追加\n↓ 開発チームメンバーが確認後👀をクリック\n↓ `/readme check メッセージID` で既読状況確認\n↓ `/readme remind メッセージID` で未読者にDMリマインダー",
 				},
+				{ name: "\u200B", value: "\u200B" },
+				{
+					name: "🔍 ロールフィルター機能",
+					value:
+						"**checkとremindコマンドで利用可能**\n\n• `filter_mode`オプションでOR/ANDを選択\n• ロール選択画面で対象ロールを複数選択可能\n• **OR**: いずれかのロールに所属するユーザー\n• **AND**: すべてのロールに所属するユーザー\n• 未指定時は従来通り（フィルターなし）",
+				},
 			)
 			.setTimestamp();
 

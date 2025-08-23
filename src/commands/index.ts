@@ -25,7 +25,7 @@ export const slashCommandData = new SlashCommandBuilder()
 	.addSubcommand((subcommand) =>
 		subcommand
 			.setName("check")
-			.setDescription("指定メッセージの既読状況を確認")
+			.setDescription("指定メッセージの既読状況を確認（ロールフィルター対応）")
 			.addStringOption((option) =>
 				option.setName("message_id").setDescription("確認するメッセージID").setRequired(true),
 			)
@@ -43,7 +43,7 @@ export const slashCommandData = new SlashCommandBuilder()
 	.addSubcommand((subcommand) =>
 		subcommand
 			.setName("remind")
-			.setDescription("指定メッセージの未読者にDMでリマインダーを送信")
+			.setDescription("指定メッセージの未読者にDMでリマインダーを送信（ロールフィルター対応）")
 			.addStringOption((option) =>
 				option
 					.setName("message_id")

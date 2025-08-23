@@ -35,7 +35,7 @@ const sendResponse = async (interaction: ChatInputCommandInteraction, embed: Emb
 
 export const remindCommandHandler: Command = {
 	name: "remind",
-	description: "指定メッセージの未読者にDMでリマインダーを送信",
+	description: "指定メッセージの未読者にDMでリマインダーを送信（ロールフィルター対応）",
 	execute: async (interaction) => {
 		// インタラクションの初期応答をエラーハンドリング付きで実行
 		try {

@@ -47,7 +47,7 @@ const sendResponse = async (
 
 export const checkCommandHandler: Command = {
 	name: "check",
-	description: "指定メッセージの既読状況を確認する",
+	description: "指定メッセージの既読状況を確認する（ロールフィルター対応）",
 	execute: async (interaction) => {
 		try {
 			if (!interaction.deferred && !interaction.replied) {

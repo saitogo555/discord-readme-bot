@@ -1,4 +1,4 @@
-import type { Guild, Message, User } from "discord.js";
+import type { Guild, Message, User, Role } from "discord.js";
 import { CLIENT_ID } from "../config";
 
 /**
@@ -78,4 +78,34 @@ export async function findMessageInGuild(guild: Guild, messageId: string): Promi
 		if (message) return message;
 	}
 	return null;
+}
+
+/**
+ * ロールに基づいてユーザーをフィルタリング
+ */
+export function filterUsersByRoles(
+	users: User[],
+	selectedRoles: Role[],
+	filterMode: "OR" | "AND",
+	guild: Guild,
+): User[] {
+	if (selectedRoles.length === 0) {
+		return users;
+	}
+
+	return users.filter((user) => {
+		const member = guild.members.cache.get(user.id);
+		if (!member) return false;
+
+		const userRoleIds = member.roles.cache.map((role) => role.id);
+		const selectedRoleIds = selectedRoles.map((role) => role.id);
+
+		if (filterMode === "OR") {
+			// ORモード: いずれかのロールに所属していればtrue
+			return selectedRoleIds.some((roleId) => userRoleIds.includes(roleId));
+		} else {
+			// ANDモード: すべてのロールに所属していればtrue
+			return selectedRoleIds.every((roleId) => userRoleIds.includes(roleId));
+		}
+	});
 }

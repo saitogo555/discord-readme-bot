@@ -28,6 +28,16 @@ export const slashCommandData = new SlashCommandBuilder()
 			.setDescription("指定メッセージの既読状況を確認")
 			.addStringOption((option) =>
 				option.setName("message_id").setDescription("確認するメッセージID").setRequired(true),
+			)
+			.addStringOption((option) =>
+				option
+					.setName("filter_mode")
+					.setDescription("ロールフィルターのモード")
+					.addChoices(
+						{ name: "OR（いずれかのロールに所属）", value: "OR" },
+						{ name: "AND（すべてのロールに所属）", value: "AND" },
+					)
+					.setRequired(false),
 			),
 	)
 	.addSubcommand((subcommand) =>
@@ -39,5 +49,15 @@ export const slashCommandData = new SlashCommandBuilder()
 					.setName("message_id")
 					.setDescription("リマインダーを送信するメッセージID")
 					.setRequired(true),
+			)
+			.addStringOption((option) =>
+				option
+					.setName("filter_mode")
+					.setDescription("ロールフィルターのモード")
+					.addChoices(
+						{ name: "OR（いずれかのロールに所属）", value: "OR" },
+						{ name: "AND（すべてのロールに所属）", value: "AND" },
+					)
+					.setRequired(false),
 			),
 	);
